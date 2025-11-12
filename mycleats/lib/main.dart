@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-         .copyWith(secondary: Colors.blueAccent[400]),
+         .copyWith(secondary: Colors.blueAccent),
       ),
       home: MyHomePage(),
     );

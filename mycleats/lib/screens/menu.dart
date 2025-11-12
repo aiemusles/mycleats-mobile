@@ -22,10 +22,10 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       // AppBar adalah bagian atas halaman yang menampilkan judul.
       appBar: AppBar(
-        // Judul aplikasi "Football News" dengan teks putih dan tebal.
+        // Judul aplikasi "myCleats" dengan teks ungu dan tebal.
         title: const Text(
-          'Football News',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          'myCleats',
+          style: TextStyle(color: Colors.lightGreen, fontWeight: FontWeight.bold),
         ),
         // Warna latar belakang AppBar diambil dari skema warna tema aplikasi.
         backgroundColor: Theme.of(context).colorScheme.primary,

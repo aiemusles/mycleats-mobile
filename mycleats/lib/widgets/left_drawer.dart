@@ -15,17 +15,17 @@ class LeftDrawer extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'Football News',
+                  'myCleats',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.green,
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Text(
-                  "Seluruh berita sepak bola terkini di sini!",
+                  "Share your products here!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -51,7 +51,7 @@ class LeftDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.post_add),
             title: const Text('Add Product'),
-            // Bagian redirection ke NewsFormPage
+            // Bagian redirection ke CleatsFormPage
             onTap: () {
               Navigator.pushReplacement(
                 context,
@@ -62,7 +62,7 @@ class LeftDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.newspaper),
             title: const Text('View products'),
-            // NOTE: add redirection to see news page later
+            // NOTE: add redirection to see product page later
           )
         ],
       ),
