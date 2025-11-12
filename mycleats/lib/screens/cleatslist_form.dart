@@ -10,173 +10,128 @@ class CleatsFormPage extends StatefulWidget {
 
 class _CleatsFormPageState extends State<CleatsFormPage> {
   final _formKey = GlobalKey<FormState>();
-  String _name = "";
-  String _content = "";
-  String _category = "update"; // default
-  String _thumbnail = "";
-  bool _isFeatured = false; // default
 
-  final List<String> _categories = [
-    'Firm Ground',
-    'Artificial Grass',
-    'Multi Ground',
-    'Turf',
-    'Indoor',
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _brandController = TextEditingController();
+  final TextEditingController _sizeController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _stockController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _thumbnailController = TextEditingController();
+
+  String? _selectedCategory = 'MG';
+  bool _isFeatured = false;
+
+  final List<DropdownMenuItem<String>> _categoryOptions = const [
+    DropdownMenuItem(value: 'FG', child: Text('Firm Ground')),
+    DropdownMenuItem(value: 'AG', child: Text('Artificial Grass')),
+    DropdownMenuItem(value: 'MG', child: Text('Multi Ground')),
+    DropdownMenuItem(value: 'turf', child: Text('Turf')),
+    DropdownMenuItem(value: 'indoor', child: Text('Indoor')),
   ];
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      final cleatData = {
+        "name": _nameController.text,
+        "brand": _brandController.text,
+        "size": int.tryParse(_sizeController.text) ?? 0,
+        "price": int.tryParse(_priceController.text) ?? 0,
+        "stock": int.tryParse(_stockController.text) ?? 0,
+        "description": _descriptionController.text,
+        "thumbnail": _thumbnailController.text,
+        "category": _selectedCategory,
+        "is_featured": _isFeatured,
+      };
+
+      // TODO: integrate with backend (e.g., Django API endpoint)
+      print("Cleat data: $cleatData");
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Product saved successfully!')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('Add a New Product')),
+        title: const Center(child: Text('Add Product')),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
       ),
       drawer: LeftDrawer(),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
             children: [
-              // === Name ===
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Nama Produk",
-                    labelText: "Nama Produk",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _name = value!;
-                    });
-                  },
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "Judul tidak boleh kosong!";
-                    }
-                    return null;
-                  },
-                ),
+              TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(labelText: 'Name'),
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter cleat name' : null,
               ),
-
-              // === Category ===
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
-                    labelText: "Kategori",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                  initialValue: _category,
-                  items: _categories
-                      .map((cat) => DropdownMenuItem(
-                            value: cat,
-                            child: Text(
-                                cat[0].toUpperCase() + cat.substring(1)),
-                          ))
-                      .toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _category = newValue!;
-                    });
-                  },
-                ),
+              TextFormField(
+                controller: _brandController,
+                decoration: const InputDecoration(labelText: 'Brand'),
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter brand' : null,
               ),
-
-              // === Thumbnail URL ===
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "URL Thumbnail (opsional)",
-                    labelText: "URL Thumbnail",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _thumbnail = value!;
-                    });
-                  },
-                ),
+              TextFormField(
+                controller: _sizeController,
+                decoration: const InputDecoration(labelText: 'Size'),
+                keyboardType: TextInputType.number,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter size' : null,
               ),
-
-              // === Is Featured ===
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SwitchListTile(
-                  title: const Text("Tandai sebagai Produk Featured"),
-                  value: _isFeatured,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _isFeatured = value;
-                    });
-                  },
-                ),
+              TextFormField(
+                controller: _priceController,
+                decoration: const InputDecoration(labelText: 'Price'),
+                keyboardType: TextInputType.number,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter price' : null,
               ),
-
-              // === Tombol Simpan ===
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(Colors.indigo),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Produk berhasil tersimpan'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Judul: $_name'),
-                                      Text('Isi: $_content'),
-                                      Text('Kategori: $_category'),
-                                      Text('Thumbnail: $_thumbnail'),
-                                      Text(
-                                          'Unggulan: ${_isFeatured ? "Ya" : "Tidak"}'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _formKey.currentState!.reset();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    },
-                    child: const Text(
-                      "Simpan",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
+              TextFormField(
+                controller: _stockController,
+                decoration: const InputDecoration(labelText: 'Stock'),
+                keyboardType: TextInputType.number,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter stock' : null,
+              ),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(labelText: 'Description'),
+                maxLines: 3,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter description' : null,
+              ),
+              TextFormField(
+                controller: _thumbnailController,
+                decoration: const InputDecoration(labelText: 'Thumbnail URL'),
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter image URL' : null,
+              ),
+              DropdownButtonFormField<String>(
+                value: _selectedCategory,
+                decoration: const InputDecoration(labelText: 'Category'),
+                items: _categoryOptions,
+                onChanged: (value) => setState(() => _selectedCategory = value),
+              ),
+              SwitchListTile(
+                title: const Text('Featured'),
+                value: _isFeatured,
+                onChanged: (value) => setState(() => _isFeatured = value),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _submitForm,
+                child: const Text('Save Product'),
               ),
             ],
-          )
+          ),
         ),
       ),
     );

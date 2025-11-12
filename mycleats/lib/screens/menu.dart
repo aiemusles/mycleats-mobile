@@ -5,9 +5,9 @@ import 'package:mycleats/widgets/cleats_card.dart';
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
-  final String nama = "Lionel Messi"; //nama
-  final String npm = "2406275678"; //npm
-  final String kelas = "B"; //kelas
+  final String nama = "Marco Imanuel"; //nama
+  final String npm = "2406411824"; //npm
+  final String kelas = "C"; //kelas
 
   // Buttons
   final List<ItemHomepage> items = [
