@@ -58,8 +58,8 @@ class _CleatsFormPageState extends State<CleatsFormPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Add Product')),
-        backgroundColor: Colors.indigo,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.purple,
       ),
       drawer: LeftDrawer(),
       body: Padding(
