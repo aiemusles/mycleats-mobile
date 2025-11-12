@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mycleats/widgets/left_drawer.dart';
+import 'package:mycleats/widgets/cleats_card.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
-  final String nama = "Marco Imanuel"; //nama
-  final String npm = "2406411824"; //npm
-  final String kelas = "C"; //kelas
+  final String nama = "Lionel Messi"; //nama
+  final String npm = "2406275678"; //npm
+  final String kelas = "B"; //kelas
 
   // Buttons
   final List<ItemHomepage> items = [
-    ItemHomepage("All Products", Icons.space_dashboard),
-    ItemHomepage("My Products", Icons.space_dashboard_outlined),
-    ItemHomepage("Create Product", Icons.add_box_rounded),
+    ItemHomepage("See Football News", Icons.newspaper),
+    ItemHomepage("Add News", Icons.add),
+    ItemHomepage("Logout", Icons.logout),
   ];
 
   @override
@@ -20,14 +22,15 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       // AppBar adalah bagian atas halaman yang menampilkan judul.
       appBar: AppBar(
-        // Judul aplikasi "myCleats" dengan teks putih dan tebal.
+        // Judul aplikasi "Football News" dengan teks putih dan tebal.
         title: const Text(
-          'myCleats',
+          'Football News',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         // Warna latar belakang AppBar diambil dari skema warna tema aplikasi.
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
+      drawer: LeftDrawer(),
       // Body halaman dengan padding di sekelilingnya.
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -127,87 +130,4 @@ class ItemHomepage {
   final IconData icon;
 
   ItemHomepage(this.name, this.icon);
-
-  // Usulan dari gpt, boleh diimplemen kalau warna background ud gada kaitan dengan tombol lagi
-  /* Color get color {
-    switch (name) {
-      case "All Products":
-        return Colors.blueAccent;
-      case "My Products":
-        return Colors.greenAccent;
-      case "Create Product":
-        return Colors.redAccent;
-      default:
-        return Colors.grey;
-    }
-  } */
-}
-
-class ItemCard extends StatelessWidget {
-  // Menampilkan kartu dengan ikon dan nama.
-
-  final ItemHomepage item;
-
-  const ItemCard(this.item, {super.key});
-
-  // Default const
-  @override
-  Widget build(BuildContext context) {
-    // Menentukan warna tombol sesuai kegunaannya
-    Color pickedColor;
-    switch (item.name) {
-      case "All Products":
-        pickedColor = Colors.blueAccent;
-        break;
-      case "My Products":
-        pickedColor = Colors.greenAccent;
-        break;
-      case "Create Product":
-        pickedColor = Colors.redAccent;
-        break;
-      default:
-        pickedColor = Theme.of(context)
-            .colorScheme
-            .secondary; // Secara default, latar belakang dari tema aplikasi.
-    }
-    return Material(
-      // Warna tombol
-      color: pickedColor,
-      // Membuat sudut kartu melengkung.
-      borderRadius: BorderRadius.circular(12),
-
-      child: InkWell(
-        // Aksi ketika kartu ditekan.
-        onTap: () {
-          // Menampilkan pesan SnackBar saat kartu ditekan.
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text("Kamu telah menekan tombol ${item.name}!"),
-              ),
-            );
-        },
-        // Container untuk menyimpan Icon dan Text
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              // Menyusun ikon dan teks di tengah kartu.
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(item.icon, color: Colors.white, size: 30.0),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
